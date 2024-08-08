@@ -1,0 +1,18 @@
+{
+  "name": "p3",
+  "version": "1.0.0",
+  "description": "this is a new project mern site",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Praharsh Singh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4"
+  }
+}
