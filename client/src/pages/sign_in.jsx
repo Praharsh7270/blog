@@ -4,16 +4,16 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import { Link } from 'react-router-dom';
-
+import { signInStart , signInFail ,signInSuccess } from '../redux/user/UserSlice.js';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Signin = () => {
 
   const Navigate = useNavigate();
 const [formData, setFormData] = useState({ email: '', password: '' });
-  const[errorMeassage, setErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
-
+const {loading,error:errorMeassage} = useSelector((state) => state.user); 
+  const dispatch = useDispatch();
 
 const handleChange = (e) => {
   setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -23,12 +23,11 @@ const handleChange = (e) => {
 const handleSubmit = async (e) => {
   e.preventDefault();
   if(!formData.email || !formData.password){
-    return setErrorMessage("All fields are required");
+    return dispatch(signInFail("All fields are required"));
   }
 
   try {
-      setLoading(true);
-      setErrorMessage(null);
+    dispatch(signInStart());
     const res = await fetch('/api/auth/signin', {
       method: 'POST',
       headers: {
@@ -41,15 +40,16 @@ const handleSubmit = async (e) => {
 
     if (res.ok) {
       console.log('User signed in successfully:', data);
-      setLoading(false);
       Navigate('/');
+      return dispatch(signInSuccess(data));
+      
     } else {
-      console.error('Sign-ip failed:', data);
-      setErrorMessage("Client side error");
-      setLoading(false);
+      console.error('Sign-in failed:', data);
+      return dispatch(signInFail(data));
     }
   } catch (err) {
-    console.error('Error during sign-up:', err);
+    
+    return dispatch(signInFail(err));
   }
 };
 
@@ -105,7 +105,7 @@ return (
           </Button>
         </form>
         <div>
-          <span>Don't Have an account?</span>
+          <span>Do not Have an account?</span>
           <Link to="/signup">Sign up</Link>
         </div>
         {
