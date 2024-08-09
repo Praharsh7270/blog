@@ -1,10 +1,33 @@
 // eslint-disable-next-line no-unused-vars
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import DashProfile from '../component/dashProfile';
+import DashSlide from '../component/dashSlide';
 
-const dashboard = () => {
+const Dashboard = () => {
+  const location = useLocation();
+  const [tab, setTab] = useState('');
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const tabFromUrl = urlParams.get('tab');
+    setTab(tabFromUrl);
+    console.log(tabFromUrl);
+  }, [location.search]);
+
   return (
-    <div>dashboard</div>
-  )
+    <div className="min-h-screen flex flex-row">
+      {/* Sidebar on the left */}
+      <div className="w-1/4">
+        <DashSlide />
+      </div>
+
+      {/* Content on the right */}
+      <div className="w-3/4 p-4">
+        {tab === 'profile' && <DashProfile />}
+      </div>
+    </div>
+  );
 }
 
-export default dashboard
+export default Dashboard;
