@@ -4,13 +4,16 @@ import { Button, Navbar, TextInput, Dropdown, Avatar, DropdownHeader } from "flo
 import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon } from "react-icons/fa";
+import { FaMoon , FaSun } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { toggleTheme } from "../redux/theme/themeSlice";
 
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
-
+  const dispatch = useDispatch()
+  const {theme} = useSelector((state) => state.theme)
   console.log(currentUser);
   return (
     <Navbar className="border-b-2 flex justify-between items-center px-4 py-2">
@@ -38,8 +41,12 @@ const Header = () => {
         <Button
           className="w-10 h-10 hidden sm:inline border rounded-lg ml-2"
           color="gray"
+          onClick={()=>{
+            dispatch(toggleTheme())
+          }}
         >
-          <FaMoon />
+          {theme === 'light' ? <FaMoon/> : <FaSun/> }
+         
         </Button>
        
 
