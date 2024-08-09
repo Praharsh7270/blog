@@ -1,12 +1,17 @@
 // eslint-disable-next-line no-unused-vars
-import { Button, Navbar, TextInput } from "flowbite-react";
+import { Button, Navbar, TextInput, Dropdown, Avatar, DropdownHeader } from "flowbite-react";
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
+import { useSelector } from "react-redux";
+
 
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
+  console.log(currentUser);
   return (
     <Navbar className="border-b-2 flex justify-between items-center px-4 py-2">
       <Link
@@ -36,21 +41,41 @@ const Header = () => {
         >
           <FaMoon />
         </Button>
-        <Link to="/signin" className="ml-2">
-          <Button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white" >
-            Sign in
-          </Button>
-        </Link>
+       
+
+        {currentUser ? (
+          <Dropdown
+            label={<Button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white">{currentUser.name}</Button>}
+            className="ml-2"
+          >
+            <Avatar 
+              alt="user"
+              img={currentUser.profilePhoto}
+              rounded 
+            />
+            <DropdownHeader>
+              <span>{currentUser.username}</span>
+              <br />
+              <span>{currentUser.email}</span>
+            </DropdownHeader>
+            <Dropdown.Item>
+              <Link to="/dashboard?tab=profile">Profile</Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <Link to="/signout">Sign out</Link>
+            </Dropdown.Item>
+          </Dropdown>
+        ) : (
+          <Link to="/signin" className="ml-2">
+            <Button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white">
+              Sign in
+            </Button>
+          </Link>
+        )}
       </div>
-      <Link to="/" >
-      home
-        </Link>
-        <Link to="/about" >
-      about
-        </Link>
-        <Link to="/projects" >
-      projects
-        </Link>
+      <Link to="/">home</Link>
+      <Link to="/about">about</Link>
+      <Link to="/projects">projects</Link>
     </Navbar>
   );
 };
