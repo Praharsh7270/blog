@@ -2,6 +2,7 @@ import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 // eslint-disable-next-line no-unused-vars
 import { React, useState } from 'react';
 import { Link ,useNavigate } from 'react-router-dom';
+import Oauth from '../component/Oauth';
 
 const SignUp = () => {
     const Navigate = useNavigate();
@@ -104,6 +105,7 @@ const SignUp = () => {
                 ) : "Sign Up"
               }
             </Button>
+            <Oauth />
           </form>
           <div>
             <span>Have an account?</span>
@@ -117,6 +119,7 @@ const SignUp = () => {
             )
           }
         </div>
+       
       </div>
     </div>
   );
