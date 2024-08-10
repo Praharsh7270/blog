@@ -49,7 +49,7 @@ export const signin = async (req, res, next) => {
         const token = jwt.sign(
             { id: ValidUser._id },
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '30d' }
         );
         const { password: pass, ...rest } = ValidUser._doc;
         res.status(200).cookie('access_token', token, {
